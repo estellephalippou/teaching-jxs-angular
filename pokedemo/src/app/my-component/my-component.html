@@ -1,6 +1,14 @@
-<input [(ngModel)]="id">
-<input readonly [(ngModel)]="id">
+  
+<input [(ngModel)]="id" (ngModelChange)="updateName()">
+<input  [(ngModel)]="name">
+<select [(ngModel)]="id" (ngModelChange)="updateName()">
+  <option *ngFor="let p of pokes | filterPokemonPipe :'name':name" [value]="p.id">{{p.name}}</option>
+</select>
+<button (click)="GetPokemon()">Go! </button>
 
-<br>
+<div>
+    <p>Mon id est : {{id}}</p>
+<p>Mon nom est : {{name}}</p>
+</div>
+<mat-slide-toggle >Only even</mat-slide-toggle>
 
-Mon id est : {{id}}

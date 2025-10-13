@@ -4,7 +4,7 @@
 <select [(ngModel)]="id" (ngModelChange)="updateName()">
   <option *ngFor="let p of pokes | filterPokemonPipe :'name':name" [value]="p.id">{{p.name}}</option>
 </select>
-<button (click)="GetPokemon()">Go! </button>
+<button (click)="GetPokemon(id)">Go! </button>
 
 <div>
     <p>Mon id est : {{id}}</p>

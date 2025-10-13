@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { Pokemon } from '../pokemon';
+import { PokemonService } from '../service/pokéapi';
 
 @Component({
   selector: 'app-my-component',
@@ -8,24 +9,41 @@ import { Pokemon } from '../pokemon';
   styleUrl: './my-component.css',
   
 })
-export class MyComponent {
+export class MyComponent implements OnInit {
   id: string = '';
   name : string = '';
   go : boolean = false;
   pokes : Pokemon[] = [];
+  pokemon: any;
 
-  constructor() {
-    this.pokes.push(new Pokemon('1', 'Pikachu'));
-    this.pokes.push(new Pokemon('2', 'Bulbusaur'));
-    this.pokes.push(new Pokemon('3', 'Ivysaur'));
-    this.pokes.push(new Pokemon('4', 'Venusaur'));
-    this.pokes.push(new Pokemon('5', 'Charamander'));
+
+  constructor(private pokemonService: PokemonService) {
+    
+  }
+  ngOnInit() :void{
+    this.getPokemonList();
+  }
+  getPokemonList() {
+    this.pokemonService.getPokemonList().subscribe({
+     next: (data) => {
+      this.pokes = data.results.map((result: any, index: number) =>
+        new Pokemon((index + 1).toString(), result.name)
+      );
+    },
+      error: (err) => console.error(err)
+    });
   }
   updateName() {
     const poke= this.pokes.find(p=>p.id===this.id);
     this.name=poke?.name || '';
 }
-  GetPokemon() {
+  GetPokemon(name:string) {
     this.go = true;
-    console.log(this.id);
+    this.pokemonService.getPokemon(name).subscribe({
+      next: (data) => {
+        this.pokemon = data;
+        console.log(this.pokemon);
+      },
+      error: (err) => console.error(err)
+    });
   }}

@@ -1,12 +1,14 @@
 import { Component,OnInit } from '@angular/core';
 import { Pokemon } from '../pokemon';
 import { PokemonService } from '../service/pokéapi';
+import { forkJoin } from 'rxjs/internal/observable/forkJoin';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-my-component',
   standalone: false,
   templateUrl: './my-component.html',
-  styleUrl: './my-component.css',
+  styleUrls: ['./my-component.css'], 
   
 })
 export class MyComponent implements OnInit {
@@ -14,36 +16,49 @@ export class MyComponent implements OnInit {
   name : string = '';
   go : boolean = false;
   pokes : Pokemon[] = [];
-  pokemon: any;
-
-
+  selectedPokemon?: Pokemon;
   constructor(private pokemonService: PokemonService) {
     
   }
   ngOnInit() :void{
     this.getPokemonList();
+    
   }
   getPokemonList() {
-    this.pokemonService.getPokemonList().subscribe({
-     next: (data) => {
-      this.pokes = data.results.map((result: any, index: number) =>
-        new Pokemon((index + 1).toString(), result.name)
+  this.pokemonService.getPokemonList().pipe(
+    switchMap((data: any) => {
+    
+      const requests = data.results.map((result: any) => {
+    const id = result.url.split('/').filter(Boolean).pop();
+        
+        return this.pokemonService.getPokemon(id);
+      });
+     
+      return forkJoin(requests);
+    })
+  ).subscribe({
+    next: (pokemonList:any) => {
+      this.pokes = pokemonList.map((data: any) =>
+        new Pokemon(
+          data.id.toString(),
+          data.name,
+          data.imageUrl,
+          data.types,
+          data.abilities,
+          data.stats
+        )
       );
+      console.log(this.pokes); 
     },
-      error: (err) => console.error(err)
-    });
-  }
+    error: (err) => console.error(err)
+  });
+}
   updateName() {
     const poke= this.pokes.find(p=>p.id===this.id);
     this.name=poke?.name || '';
 }
   GetPokemon(name:string) {
-    this.go = true;
-    this.pokemonService.getPokemon(name).subscribe({
-      next: (data) => {
-        this.pokemon = data;
-        console.log(this.pokemon);
-      },
-      error: (err) => console.error(err)
-    });
+    this.selectedPokemon = this.pokes.find(p=>p.id===this.id);
+    console.log(this.selectedPokemon?.types);
+    
   }}

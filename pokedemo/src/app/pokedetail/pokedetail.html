@@ -1,0 +1,41 @@
+Le pokemon selectioné est : {{detail?.name}}
+<div style="display: flex;justify-content:center">
+    <div *ngIf="detail" style="display:flex;align-items:flex-start;gap:16px;">
+        <div class="main-artwork">
+            <img
+                [src]="detail.sprites.other?.['official-artwork']?.front_default || detail.sprites.front_default"
+                [alt]="detail.name"
+                style="width:200px;height:auto;"
+            />
+        </div>
+
+        <div class="thumbnails" style="display:flex;flex-direction:column;gap:8px;">
+            <img *ngIf="detail.sprites.front_default" [src]="detail.sprites.front_default" [alt]="detail.name + ' front'" style="width:64px;height:auto;" loading="lazy" />
+            <img *ngIf="detail.sprites.front_shiny" [src]="detail.sprites.front_shiny" [alt]="detail.name + ' shiny'" style="width:64px;height:auto;" loading="lazy" />
+            <img *ngIf="detail.sprites.back_default" [src]="detail.sprites.back_default" [alt]="detail.name + ' back'" style="width:64px;height:auto;" loading="lazy" />
+            <img *ngIf="detail.sprites.back_shiny" [src]="detail.sprites.back_shiny" [alt]="detail.name + ' back shiny'" style="width:64px;height:auto;" loading="lazy" />
+        </div>
+    </div>
+
+
+    <div *ngIf="detail" >
+        <p><strong>Capacités:</strong>
+                <span *ngFor="let ability of detail?.abilities"> {{ ability?.ability?.name }}</span>
+        </p>
+        <p><strong>Taille:</strong> {{ detail?.height != null ? (detail.height / 10) + ' m' : '—' }}</p>
+        <p><strong>Poids:</strong> {{ detail?.weight != null ? (detail.weight / 10) + ' kg' : '—' }}</p>
+        <p><strong>Types:</strong>
+            <span *ngFor="let t of detail?.types; let i = index"> {{ t.type.name }}<span
+                    *ngIf="i < (detail.types.length - 1)">, </span></span>
+        </p>
+        <p><strong>Expérience de base:</strong> {{ detail?.base_experience ?? '—' }}</p>
+        <p><strong>Nombre de mouvements:</strong> {{ detail.moves.length ?? 0 }}</p>
+
+        <p *ngIf="detail?.stats?.length"><strong>Stats:</strong>
+            <span *ngFor="let s of detail.stats"> {{ s.stat.name }}: {{ s.base_stat }}
+            </span>
+        </p>
+
+        <p *ngIf="detail?.species"><strong>Espèce:</strong> {{ detail.species.name }}</p>
+    </div>
+</div>

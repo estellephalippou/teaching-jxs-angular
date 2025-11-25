@@ -14,7 +14,7 @@ export class Pokedetail implements OnInit {
   @Input('detail')
   detail? : PokeDetail | undefined;
 
-  constructor(private pokeShareInfoService: PokeShareInfo) { 
+  constructor(private pokeShareInfoService: PokeShareInfo) {
     this.pokeShareInfoService.getObservable().subscribe(e => {
       console.log("e: " + e);
     });

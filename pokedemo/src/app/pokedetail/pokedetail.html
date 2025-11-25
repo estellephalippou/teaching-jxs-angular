@@ -20,22 +20,22 @@ Le pokemon selectioné est : {{detail?.name}}
 
     <div *ngIf="detail" >
         <p><strong>Capacités:</strong>
-                <span *ngFor="let ability of detail?.abilities"> {{ ability?.ability?.name }}</span>
+            <span *ngFor="let ability of detail.abilities"> {{ ability.ability?.name }}</span>
         </p>
-        <p><strong>Taille:</strong> {{ detail?.height != null ? (detail.height / 10) + ' m' : '—' }}</p>
-        <p><strong>Poids:</strong> {{ detail?.weight != null ? (detail.weight / 10) + ' kg' : '—' }}</p>
+        <p><strong>Taille:</strong> {{ detail.height != null ? (detail.height / 10) + ' m' : '—' }}</p>
+        <p><strong>Poids:</strong> {{ detail.weight != null ? (detail.weight / 10) + ' kg' : '—' }}</p>
         <p><strong>Types:</strong>
-            <span *ngFor="let t of detail?.types; let i = index"> {{ t.type.name }}<span
+                <span *ngFor="let t of detail.types; let i = index"> {{ t.type.name }}<span
                     *ngIf="i < (detail.types.length - 1)">, </span></span>
         </p>
-        <p><strong>Expérience de base:</strong> {{ detail?.base_experience ?? '—' }}</p>
-        <p><strong>Nombre de mouvements:</strong> {{ detail.moves.length ?? 0 }}</p>
+        <p><strong>Expérience de base:</strong> {{ detail.base_experience }}</p>
+        <p><strong>Nombre de mouvements:</strong> {{ detail.moves.length }}</p>
 
-        <p *ngIf="detail?.stats?.length"><strong>Stats:</strong>
+        <p *ngIf="detail.stats.length"><strong>Stats:</strong>
             <span *ngFor="let s of detail.stats"> {{ s.stat.name }}: {{ s.base_stat }}
             </span>
         </p>
 
-        <p *ngIf="detail?.species"><strong>Espèce:</strong> {{ detail.species.name }}</p>
+        <p *ngIf="detail.species"><strong>Espèce:</strong> {{ detail.species.name }}</p>
     </div>
 </div>

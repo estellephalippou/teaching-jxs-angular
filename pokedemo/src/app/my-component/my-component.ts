@@ -1,64 +1,49 @@
-import { Component,OnInit } from '@angular/core';
-import { Pokemon } from '../pokemon';
-import { PokemonService } from '../service/pokéapi';
-import { forkJoin } from 'rxjs/internal/observable/forkJoin';
-import { switchMap } from 'rxjs';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { PokeDetail, Pokemon } from '../pokemon';
+import { PokeApiService } from '../poke-api-service';
+import { PokeShareInfo } from '../poke-share-info';
 
 @Component({
-  selector: 'app-my-component',
   standalone: false,
+  selector: 'app-my-component',
   templateUrl: './my-component.html',
-  styleUrls: ['./my-component.css'], 
-  
+  styleUrls: ['./my-component.css'],
+  providers: [PokeApiService, PokeShareInfo],
 })
+
 export class MyComponent implements OnInit {
   id: string = '';
-  name : string = '';
-  go : boolean = false;
-  pokes : Pokemon[] = [];
-  selectedPokemon?: Pokemon;
-  constructor(private pokemonService: PokemonService) {
-    
-  }
-  ngOnInit() :void{
-    this.getPokemonList();
-    
-  }
-  getPokemonList() {
-  this.pokemonService.getPokemonList().pipe(
-    switchMap((data: any) => {
-    
-      const requests = data.results.map((result: any) => {
-    const id = result.url.split('/').filter(Boolean).pop();
-        
-        return this.pokemonService.getPokemon(id);
+  selectedPokeId: string | '' = '';
+  searchPokeName: string = '';
+  pokes: Pokemon[] = [];
+  pokeDetail: PokeDetail | undefined;
+
+  constructor(private pokeService: PokeApiService,
+              private pokeShareInfoService: PokeShareInfo,
+              private cdr: ChangeDetectorRef) {
+    }
+
+  ngOnInit() {
+    this.pokeService.getPokemons().subscribe((data) => {
+      console.log(data.results);
+      const res = data.results as any[];
+      data.results.forEach((e,index) => {
+        this.pokes.push(new Pokemon((index+1).toString(), e.name, e.url));
       });
-     
-      return forkJoin(requests);
-    })
-  ).subscribe({
-    next: (pokemonList:any) => {
-      this.pokes = pokemonList.map((data: any) =>
-        new Pokemon(
-          data.id.toString(),
-          data.name,
-          data.imageUrl,
-          data.types,
-          data.abilities,
-          data.stats
-        )
-      );
-      console.log(this.pokes); 
-    },
-    error: (err) => console.error(err)
+      this.cdr.detectChanges();
   });
 }
-  updateName() {
-    const poke= this.pokes.find(p=>p.id===this.id);
-    this.name=poke?.name || '';
+
+  go() {
+    const idToFetch = (this.id && this.id.toString().trim() !== '') ? this.id.toString().trim() : this.selectedPokeId;
+    if (idToFetch !== '') {
+      this.pokeService.getPokemonsInfo(idToFetch).subscribe(data => {
+        this.pokeDetail = data;
+        this.cdr.detectChanges();
+        setTimeout(() => {
+          this.pokeShareInfoService.setValue(idToFetch);
+        }, 0);
+      });
+    }
+  }
 }
-  GetPokemon(name:string) {
-    this.selectedPokemon = this.pokes.find(p=>p.id===this.id);
-    console.log(this.selectedPokemon?.types);
-    
-  }}

@@ -1,30 +1,27 @@
-  
-<input [(ngModel)]="id" (ngModelChange)="updateName()">
-<input  [(ngModel)]="name">
-<select [(ngModel)]="id" (ngModelChange)="updateName()">
-  <option *ngFor="let p of pokes | filterPokemonPipe :'name':name" [value]="p.id">{{p.name}}</option>
-</select>
-<button (click)="GetPokemon(id)">Go! </button>
-<div>
-    <p>Mon id est : {{id}}</p>
-<p>Mon nom est : {{name}}</p>
-</div>
-<mat-slide-toggle >Only even</mat-slide-toggle>
-<div *ngIf="selectedPokemon">
-  <h2>{{ selectedPokemon.name | uppercase }} Details</h2>
-  <img [src]="selectedPokemon.imageUrl" alt="{{ selectedPokemon.name }}">
-  <p><strong>ID:</strong> {{ selectedPokemon.id }}</p>
-  <p><strong>Types:</strong> {{ selectedPokemon.types.join(', ') }}</p>
-  <p><strong>Abilities:</strong> {{ selectedPokemon.abilities.join(', ') }}</p>
-  <p><strong>Base Experience:</strong> {{ selectedPokemon.baseExperience }}</p>
-  <h3>Stats:</h3>
-  <ul class="stats-list">
-    <li  *ngFor="let stat of selectedPokemon.stats">
-      {{ stat.name | titlecase }}: {{ stat.value }}
-    </li>
-  </ul>
-</div>
-<div *ngIf="!selectedPokemon">
-  <p>No details available.</p>
-</div>
+<input [(ngModel)]="id" placeholder="Entrer un id pour rechercher">
+<input readonly [(ngModel)]="id">
 
+<br>
+
+Mon id est : {{id}}
+<br>
+Mon pokémon selectioné est : {{selectedPokeId}}
+<br>
+
+<input [(ngModel)]="searchPokeName" placeholder="Filtrer par nom">
+<select [(ngModel)]="selectedPokeId" (ngModelChange)="id = $event">
+    <option [ngValue]="''">Choisir un pokémon</option>
+    <option *ngFor="let poke of pokes | filterPokemonPipe: 'name': searchPokeName" [ngValue]="poke.id">{{poke.name}}
+    </option>
+</select>
+
+<br>
+<button (click)="go()">Go!</button>
+<br>
+
+<div *ngIf="pokeDetail">
+
+
+    <app-pokedetail [detail]="pokeDetail"></app-pokedetail>
+
+</div>

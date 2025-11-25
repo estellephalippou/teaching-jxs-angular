@@ -1,14 +1,27 @@
-  
-<input [(ngModel)]="id" (ngModelChange)="updateName()">
-<input  [(ngModel)]="name">
-<select [(ngModel)]="id" (ngModelChange)="updateName()">
-  <option *ngFor="let p of pokes | filterPokemonPipe :'name':name" [value]="p.id">{{p.name}}</option>
+<input [(ngModel)]="id" placeholder="Entrer un id pour rechercher">
+<input readonly [(ngModel)]="id">
+
+<br>
+
+Mon id est : {{id}}
+<br>
+Mon pokémon selectioné est : {{selectedPokeId}}
+<br>
+
+<input [(ngModel)]="searchPokeName" placeholder="Filtrer par nom">
+<select [(ngModel)]="selectedPokeId" (ngModelChange)="id = $event">
+    <option [ngValue]="''">Choisir un pokémon</option>
+    <option *ngFor="let poke of pokes | filterPokemonPipe: 'name': searchPokeName" [ngValue]="poke.id">{{poke.name}}
+    </option>
 </select>
-<button (click)="GetPokemon(id)">Go! </button>
 
-<div>
-    <p>Mon id est : {{id}}</p>
-<p>Mon nom est : {{name}}</p>
+<br>
+<button (click)="go()">Go!</button>
+<br>
+
+<div *ngIf="pokeDetail">
+
+
+    <app-pokedetail [detail]="pokeDetail"></app-pokedetail>
+
 </div>
-<mat-slide-toggle >Only even</mat-slide-toggle>
-

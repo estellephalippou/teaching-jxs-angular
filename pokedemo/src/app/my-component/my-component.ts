@@ -1,49 +1,49 @@
-import { Component,OnInit } from '@angular/core';
-import { Pokemon } from '../pokemon';
-import { PokemonService } from '../service/pokéapi';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { PokeDetail, Pokemon } from '../pokemon';
+import { PokeApiService } from '../poke-api-service';
+import { PokeShareInfo } from '../poke-share-info';
 
 @Component({
-  selector: 'app-my-component',
   standalone: false,
+  selector: 'app-my-component',
   templateUrl: './my-component.html',
-  styleUrl: './my-component.css',
-  
+  styleUrls: ['./my-component.css'],
+  providers: [PokeApiService, PokeShareInfo],
 })
+
 export class MyComponent implements OnInit {
   id: string = '';
-  name : string = '';
-  go : boolean = false;
-  pokes : Pokemon[] = [];
-  pokemon: any;
+  selectedPokeId: string | '' = '';
+  searchPokeName: string = '';
+  pokes: Pokemon[] = [];
+  pokeDetail: PokeDetail | undefined;
 
+  constructor(private pokeService: PokeApiService,
+              private pokeShareInfoService: PokeShareInfo,
+              private cdr: ChangeDetectorRef) {
+    }
 
-  constructor(private pokemonService: PokemonService) {
-    
-  }
-  ngOnInit() :void{
-    this.getPokemonList();
-  }
-  getPokemonList() {
-    this.pokemonService.getPokemonList().subscribe({
-     next: (data) => {
-      this.pokes = data.results.map((result: any, index: number) =>
-        new Pokemon((index + 1).toString(), result.name)
-      );
-    },
-      error: (err) => console.error(err)
-    });
-  }
-  updateName() {
-    const poke= this.pokes.find(p=>p.id===this.id);
-    this.name=poke?.name || '';
+  ngOnInit() {
+    this.pokeService.getPokemons().subscribe((data) => {
+      console.log(data.results);
+      const res = data.results as any[];
+      data.results.forEach((e,index) => {
+        this.pokes.push(new Pokemon((index+1).toString(), e.name, e.url));
+      });
+      this.cdr.detectChanges();
+  });
 }
-  GetPokemon(name:string) {
-    this.go = true;
-    this.pokemonService.getPokemon(name).subscribe({
-      next: (data) => {
-        this.pokemon = data;
-        console.log(this.pokemon);
-      },
-      error: (err) => console.error(err)
-    });
-  }}
+
+  go() {
+    const idToFetch = (this.id && this.id.toString().trim() !== '') ? this.id.toString().trim() : this.selectedPokeId;
+    if (idToFetch !== '') {
+      this.pokeService.getPokemonsInfo(idToFetch).subscribe(data => {
+        this.pokeDetail = data;
+        this.cdr.detectChanges();
+        setTimeout(() => {
+          this.pokeShareInfoService.setValue(idToFetch);
+        }, 0);
+      });
+    }
+  }
+}

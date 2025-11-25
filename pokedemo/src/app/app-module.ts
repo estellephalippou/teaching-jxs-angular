@@ -8,7 +8,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { FilterPokemonPipePipe } from './filter-pokemon--pipe-pipe';
 
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { PokeApiService } from './poke-api-service';
 import { Pokedetail } from './pokedetail/pokedetail';

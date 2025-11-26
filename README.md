@@ -1,4 +1,4 @@
-## Compte rendu du projet
+## Compte rendu du projet d'Ikram Rehahla et Estelle Phalippou
 
 Ce TP Angular vise à construire une application « Pokedemo » afin de manipuler
 l’Angular CLI et l’architecture modulaire du framework.

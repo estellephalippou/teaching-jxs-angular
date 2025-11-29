@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { PokeDetail, Pokemon } from '../pokemon';
-import { PokeApiService } from '../poke-api-service';
-import { PokeShareInfo } from '../poke-share-info';
+import { PokeDetail, Pokemon } from '../../../models/pokemon';
+import { PokeApiService } from '../../../services/poke-api-service';
+import { PokeShareInfo } from '../../../shared/poke-share-info';
 
 @Component({
   standalone: false,
@@ -18,7 +18,7 @@ export class MyComponent implements OnInit {
   pokes: Pokemon[] = [];
   pokeDetail: PokeDetail | undefined;
 
-  constructor(private pokeService: PokeApiService, 
+  constructor(private pokeService: PokeApiService,
               private pokeShareInfoService: PokeShareInfo,
               private cdr: ChangeDetectorRef) {
     }

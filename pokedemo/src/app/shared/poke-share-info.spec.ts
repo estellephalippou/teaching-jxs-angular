@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PokeShareInfo } from './poke-share-info';
+import { PokeShareInfo } from './shared/poke-share-info';
 
 describe('PokeShareInfo', () => {
   let service: PokeShareInfo;

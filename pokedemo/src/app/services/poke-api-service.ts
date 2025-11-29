@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PokeDetail, PokeServiceRes } from './pokemon';
+import { PokeDetail, PokeServiceRes } from '../models/pokemon';
 
 const url ='https://pokeapi.co/api/v2/pokemon/';
 

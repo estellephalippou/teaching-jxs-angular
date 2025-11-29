@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PokeDetail } from '../pokemon';
-import { PokeShareInfo } from '../poke-share-info';
+import { PokeDetail } from '../../../models/pokemon';
+import { PokeShareInfo } from '../../../shared/poke-share-info';
 
 @Component({
   selector: 'app-pokedetail',

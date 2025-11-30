@@ -1,0 +1,35 @@
+.pockemon-title {
+   margin-left: 200px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #a265ff;
+  font-family: 'Poppins', 'Quicksand', sans-serif;
+  text-shadow: 1px 1px 3px rgba(162, 101, 255, 0.5);
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+
+.main-artwork img {
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(200, 167, 255, 0.2);
+  background: #f8f4ff;
+}
+
+.thumbnails {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.thumbnails img {
+  cursor: pointer;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(150, 120, 200, 0.3);
+}
+
+.thumbnails img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(150, 120, 200, 0.5);
+}
+

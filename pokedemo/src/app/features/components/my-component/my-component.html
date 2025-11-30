@@ -1,0 +1,16 @@
+<input [(ngModel)]="searchPokeName" placeholder="Filtrer par nom">
+<select [(ngModel)]="selectedPokeId" (ngModelChange)="id = $event">
+    <option [ngValue]="''">Choisir un pokémon</option>
+    @for (poke of pokes | filterPokemonPipe: 'name': searchPokeName; track poke) {
+        <option [ngValue]="poke.id">{{ poke.name }}</option>
+    }
+</select>
+
+<br>
+<button (click)="go()">Go!</button>
+<br>
+
+
+@if (pokeDetail) {
+    <app-pokedetail [detail]="pokeDetail"></app-pokedetail>
+}

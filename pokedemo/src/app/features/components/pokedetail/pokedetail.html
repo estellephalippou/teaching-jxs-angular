@@ -1,0 +1,87 @@
+<p class="pockemon-title" >Le pokemon sélectionné est : <strong>{{ detail?.name }}</strong></p>
+
+<div style="display: flex; justify-content:center">
+
+    @if (detail) {
+        <div style="display:flex;align-items:flex-start;gap:16px;">
+
+            <div class="main-artwork">
+                <img
+                    [src]="detail.sprites.other?.['official-artwork']?.front_default || detail.sprites.front_default"
+                    [alt]="detail.name"
+                    style="width:200px;height:auto;"
+                />
+            </div>
+
+            <div class="thumbnails" style="display:flex;flex-direction:column;gap:8px;">
+                @if (detail.sprites.front_default) {
+                    <img [src]="detail.sprites.front_default"
+                         [alt]="detail.name + ' front'"
+                         style="width:64px;height:auto;"
+                         loading="lazy" />
+                }
+
+                @if (detail.sprites.front_shiny) {
+                    <img [src]="detail.sprites.front_shiny"
+                         [alt]="detail.name + ' shiny'"
+                         style="width:64px;height:auto;"
+                         loading="lazy" />
+                }
+
+                @if (detail.sprites.back_default) {
+                    <img [src]="detail.sprites.back_default"
+                         [alt]="detail.name + ' back'"
+                         style="width:64px;height:auto;"
+                         loading="lazy" />
+                }
+
+                @if (detail.sprites.back_shiny) {
+                    <img [src]="detail.sprites.back_shiny"
+                         [alt]="detail.name + ' back shiny'"
+                         style="width:64px;height:auto;"
+                         loading="lazy" />
+                }
+            </div>
+        </div>
+    }
+
+    @if (detail) {
+        <div>
+
+            <p><strong>Capacités:</strong>
+                @for (ability of detail.abilities; track ability) {
+                    {{ ability.ability?.name }}
+                }
+            </p>
+
+            <p><strong>Taille:</strong> {{ detail.height != null ? (detail.height / 10) + ' m' : '—' }}</p>
+
+            <p><strong>Poids:</strong> {{ detail.weight != null ? (detail.weight / 10) + ' kg' : '—' }}</p>
+
+            <p><strong>Types:</strong>
+                @for (t of detail.types; let i = $index; track t) {
+                    {{ t.type.name }}
+                    @if (i < (detail.types.length - 1)) { , }
+                }
+            </p>
+
+            <p><strong>Expérience de base:</strong> {{ detail.base_experience }}</p>
+
+            <p><strong>Nombre de mouvements:</strong> {{ detail.moves.length }}</p>
+
+            @if (detail.stats.length) {
+                <p><strong>Stats:</strong>
+                    @for (s of detail.stats; track s) {
+                        {{ s.stat.name }}: {{ s.base_stat }}
+                    }
+                </p>
+            }
+
+            @if (detail.species) {
+                <p><strong>Espèce:</strong> {{ detail.species.name }}</p>
+            }
+
+        </div>
+    }
+
+</div>

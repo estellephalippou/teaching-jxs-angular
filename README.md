@@ -16,6 +16,20 @@ l’Angular CLI et l’architecture modulaire du framework.
    - Démarrer le serveur de développement : `npm start` (ou `ng serve` qui est l'option qui marche le plus).
    - Ouvrir `http://localhost:4200/`. Les modifications dans `src/` sont rechargées automatiquement.
 
+3. **Tests E2E (Cypress)**
+    - Se placer dans le dossier `pokedemo` :
+       ```bash
+       cd pokedemo
+       ```
+    - Lancer l’UI Cypress :
+       ```bash
+       npm run cypress
+       ```
+    - Lancer les tests headless :
+       ```bash
+       npm run cy:run
+       ```
+
 3. **Travail réalisé**
    - Génération des composants/pages avec `ng generate component ...`.
    - Création des services métiers (`ng generate service services/pokemon`) et consommation d’API.

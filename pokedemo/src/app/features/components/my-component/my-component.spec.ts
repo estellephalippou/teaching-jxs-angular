@@ -9,7 +9,8 @@ import { MyComponent } from './my-component';
 import { FilterPokemonPipePipe } from '../../../shared/pipes/filter-pokemon--pipe-pipe';
 import { PokeApiService } from '../../../services/poke-api-service';
 import { PokeShareInfo } from '../../../shared/poke-share-info';
-import { PokeDetail, PokeServiceRes } from '../../../models/pokemon';
+import type { PokeDetail } from '../../../models/pokemon';
+import { PokeServiceRes } from '../../../models/pokemon';
 
 @Component({
   selector: 'app-pokedetail',

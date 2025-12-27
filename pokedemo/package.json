@@ -8,7 +8,9 @@
     "watch": "ng build --watch --configuration development",
     "test": "jest --verbose",
     "test:coverage": "jest --coverage",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "cypress": "cypress open",
+    "cy:run": "cypress run"
   },
   "prettier": {
     "printWidth": 100,
@@ -42,7 +44,9 @@
     "@angular/build": "^20.3.3",
     "@angular/cli": "^20.3.3",
     "@angular/compiler-cli": "^20.3.0",
+    "@cypress/schematic": "^5.0.0",
     "@types/jest": "^30.0.0",
+    "cypress": "^15.8.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^30.0.0",
     "jest-environment-jsdom": "^30.0.0",

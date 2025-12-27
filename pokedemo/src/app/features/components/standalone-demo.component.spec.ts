@@ -35,12 +35,39 @@ describe('StandaloneDemoComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`should have as title 'angular-jest-demo'`, () => {
-    expect(component.title).toEqual('angular-jest-demo');
+  it(`should have as title 'Composant Standalone Demo'`, () => {
+    expect(component.title).toEqual('Composant Standalone Demo');
   });
 
   it('should render the title', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, angular-jest-demo');
+    expect(compiled.querySelector('h2')?.textContent).toContain('Composant Standalone Demo');
+  });
+
+  it('should render the description', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('p')?.textContent).toContain('Exemple de composant standalone');
+  });
+
+  it('should have initial counter at 0', () => {
+    expect(component.counter).toBe(0);
+  });
+
+  it('should increment counter when button is clicked', () => {
+    const button = fixture.nativeElement.querySelector('button');
+    button.click();
+    expect(component.counter).toBe(1);
+    button.click();
+    expect(component.counter).toBe(2);
+  });
+
+  it('should display counter value in button text', () => {
+    fixture.detectChanges();
+    const button = fixture.nativeElement.querySelector('button');
+    expect(button.textContent).toContain('(0)');
+
+    component.incrementCounter();
+    fixture.detectChanges();
+    expect(button.textContent).toContain('(1)');
   });
 });
